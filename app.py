@@ -8,39 +8,49 @@ import gradio as gr
 
 from myMetroProcessing import load_models, processOneMetroImage
 
-# Charger les modèles une seule fois au démarrage
+# Load models once at startup
 load_models()
 
 def predict_metro_lines(image: Image.Image, resize_factor: float = 1.0):
-    # Conversion en numpy (RGB)
+    # Convert to numpy (RGB)
     im = np.array(image.convert("RGB"))
 
-    # Appel de la fonction projet
+    # Call the project function
     im_resized, bd = processOneMetroImage("uploaded", im, 0, resize_factor)
 
-    # bd est un tableau [n, y1, y2, x1, x2, classe]
-    # On dessine les rectangles + labels sur l’image
+    # bd is an array [n, y1, y2, x1, x2, class]
+    # Draw rectangles + labels on the image
     fig, ax = plt.subplots()
     ax.imshow(im_resized)
     ax.axis("off")
 
     if bd is not None and bd.shape[0] > 0:
         for row in bd:
-            _, y1, y2, x1, x2, classe = row
-            rect = Rectangle((x1, y1), x2 - x1, y2 - y1,
-                             fill=False, linewidth=2)
+            _, y1, y2, x1, x2, metro_line = row
+            rect = Rectangle(
+                (x1, y1),
+                x2 - x1,
+                y2 - y1,
+                fill=False,
+                linewidth=2
+            )
             ax.add_patch(rect)
-            ax.text(x1, y1 - 5, f"Ligne {classe}",
-                    fontsize=8, bbox=dict(facecolor="white", alpha=0.7))
+            ax.text(
+                x1,
+                y1 - 5,
+                f"Line {metro_line}",
+                fontsize=8,
+                bbox=dict(facecolor="white", alpha=0.7)
+            )
 
-    # Conversion de la figure matplotlib en image PIL
+    # Convert matplotlib figure to PIL image
     buf = io.BytesIO()
     fig.savefig(buf, format="png", bbox_inches="tight", pad_inches=0)
     plt.close(fig)
     buf.seek(0)
     out_image = Image.open(buf)
 
-    # Tableau de résultats pour affichage dans Gradio
+    # Results table for display in Gradio
     if bd is not None and bd.shape[0] > 0:
         df = pd.DataFrame(bd, columns=["image_idx", "y1", "y2", "x1", "x2", "line"])
     else:
@@ -48,18 +58,19 @@ def predict_metro_lines(image: Image.Image, resize_factor: float = 1.0):
 
     return out_image, df
 
+
 demo = gr.Interface(
     fn=predict_metro_lines,
     inputs=[
-        gr.Image(type="pil", label="Image de panneau de métro"),
-        gr.Slider(0.5, 1.5, value=1.0, step=0.1, label="Facteur de redimensionnement")
+        gr.Image(type="pil", label="Metro sign image"),
+        gr.Slider(0.5, 1.5, value=1.0, step=0.1, label="Resize factor")
     ],
     outputs=[
-        gr.Image(label="Image annotée"),
-        gr.Dataframe(label="Lignes détectées")
+        gr.Image(label="Annotated image"),
+        gr.Dataframe(label="Detected lines")
     ],
-    title="Détection de lignes de métro parisiennes",
-    description="Upload une photo de panneau de métro, le modèle détecte les pictogrammes et prédit la ligne."
+    title="Paris Metro Line Detection",
+    description="Upload a photo of a metro sign. The model detects metro pictograms and predicts the corresponding line."
 )
 
 if __name__ == "__main__":
