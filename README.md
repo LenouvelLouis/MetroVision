@@ -1,4 +1,119 @@
 # Projet IG2405 – Détection et Classification de Signes Métro
+French version below / English version above
+## Automatic Detection and Classification of Paris Metro Signs
+
+The aim of this project is to automatically detect and classify pictograms on Paris metro lines from images.  
+It combines computer vision techniques (Hough Circle Transform), descriptors (HOG) and machine learning models (binary CNN, k-NN).
+
+It also includes a Gradio interface for easy testing of the model locally or on Hugging Face Spaces.
+
+---
+
+## 📁 Project structure
+
+```
+evaluationV2.py
+metroChallenge.py
+myMetroProcessing.py
+requirements.txt
+teamsNN.mat
+test.py
+train_cnn.py
+train_knn_scaler.py
+BD_CHALLENGE/
+model/
+    knn_line_model.joblib
+    model_binary_real_metro.h5
+    scaler_line.joblib
+```
+
+- **myMetroProcessing.py**: Main image processing functions, circle detection, CNN and k-NN application.
+- **train_cnn.py**: Training the CNN model for binary sign classification.
+- **train_knn_scaler.py**: Training the k-NN model for line classification, calculation and saving of the scaler.
+- **evaluationV2.py**: Script for evaluating system performance on test and reference datasets.
+- **metroChallenge.py**: Main script for launching the challenge on a set of images.
+- **model/**: Folder containing the trained models (`.h5`, `.joblib`).
+- **BD_CHALLENGE/**: Folder for challenge data.
+- **requirements.txt**: Python dependencies for the project.
+
+## Installation
+
+1. Clone the repository and navigate to the project folder.
+2. Create and activate a virtual environment (optional but recommended):
+```sh
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+3. Install the dependencies:
+```sh
+pip install -r requirements.txt
+```
+## 🚀 Usage
+
+### 1. Processing an image
+
+Use the [`processOneMetroImage`](myMetroProcessing.py) function to process an image and detect/classify signs.
+
+### 2. Evaluation
+
+
+### 🔹 1. Start processing an image (complete pipeline)
+
+The main function is located in **`myMetroProcessing.py`**:
+
+```python
+processOneMetroImage(name, image, index, resize_factor)
+```
+### 🔹 2. Start the challenge evaluation
+
+To evaluate performance on a test set:
+```sh
+python metroChallenge.py
+```
+Modify the paths in the script if necessary to point to your reference and test `.mat` files.
+
+Then, to evaluate the results with the reference file:
+```python
+from evaluationV2 import evaluation
+
+evaluation(‘ControlFile.mat’, ‘YourFile.mat’, resize_factor=1.0)
+```
+
+## 🧩  Gradio interface (local)
+
+A Gradio interface is provided in app.py.
+
+###  ▶️ Launch the Gradio app locally
+```sh
+python app.py
+```
+Then go to:
+```
+http://127.0.0.1:7860
+```
+
+## Main dependencies
+
+- numpy 
+- opencv-python 
+- scikit-image 
+- scikit-learn 
+- tensorflow / keras 
+- matplotlib 
+- pandas 
+- joblib 
+- pillow 
+- gradio
+
+See [`requirements.txt`](requirements.txt) for the complete list.
+
+## 👥 Authors
+
+- ESTEVES Gabriel
+- LENOUVEL Louis
+
+---
+
 ## Détection et Classification Automatique de Signes du Métro Parisien
 
 Ce projet a pour objectif de détecter et classifier automatiquement les pictogrammes des lignes du métro parisien à partir d’images.  
