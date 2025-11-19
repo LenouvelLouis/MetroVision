@@ -12,14 +12,16 @@ from myMetroProcessing import load_models, processOneMetroImage
 load_models()
 
 def predict_metro_lines(image: Image.Image, resize_factor: float = 1.0):
+    if image is None:
+        return None, pd.DataFrame(columns=["image_idx", "y1", "y2", "x1", "x2", "line"])
+
     # Convert to numpy (RGB)
     im = np.array(image.convert("RGB"))
 
-    # Call the project function
+    # Call project processing function
     im_resized, bd = processOneMetroImage("uploaded", im, 0, resize_factor)
 
-    # bd is an array [n, y1, y2, x1, x2, class]
-    # Draw rectangles + labels on the image
+    # Draw predictions and bounding boxes
     fig, ax = plt.subplots()
     ax.imshow(im_resized)
     ax.axis("off")
@@ -70,7 +72,12 @@ demo = gr.Interface(
         gr.Dataframe(label="Detected lines")
     ],
     title="Paris Metro Line Detection",
-    description="Upload a photo of a metro sign. The model detects metro pictograms and predicts the corresponding line."
+    description="Upload a photo of a metro sign. The model detects metro pictograms and predicts the corresponding line.",
+    examples=[
+        ["IM_(1).jpg", 1.0],
+        ["IM_(2).jpg", 1.0],
+        ["IM_(3).jpg", 1.0]
+    ]
 )
 
 if __name__ == "__main__":

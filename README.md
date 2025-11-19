@@ -92,6 +92,10 @@ Then go to:
 http://127.0.0.1:7860
 ```
 
+## Examples of input images
+![IM (1).jpg](IM_(1).jpg)
+![IM (2).jpg](IM_(2).jpg)
+
 ## Main dependencies
 
 - numpy 
@@ -109,8 +113,8 @@ See [`requirements.txt`](requirements.txt) for the complete list.
 
 ## 👥 Authors
 
-- ESTEVES Gabriel
-- LENOUVEL Louis
+- [ESTEVES Gabriel](https://github.com/GabrielEstevesDev)
+- [LENOUVEL Louis](https://github.com/LenouvelLouis)
 
 ---
 
@@ -205,6 +209,10 @@ Accéder ensuite à :
 ```
 http://127.0.0.1:7860
 ```
+
+## Exemples d’images d’entrée
+![IM (1).jpg](IM_(1).jpg)
+![IM (2).jpg](IM_(2).jpg)
 
 ## Dépendances principales
 
