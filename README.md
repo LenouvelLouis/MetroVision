@@ -223,8 +223,8 @@ Voir [`requirements.txt`](requirements.txt) pour la liste complète.
 
 ## 👥 Auteurs
 
-- [ESTEVES Gabriel]('https://github.com/GabrielEstevesDev')
-- [LENOUVEL Louis]('https://github.com/LenouvelLouis')
+- [ESTEVES Gabriel](https://github.com/GabrielEstevesDev)
+- [LENOUVEL Louis](https://github.com/LenouvelLouis)
 
 ---
 
